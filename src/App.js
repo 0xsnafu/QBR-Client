@@ -21,10 +21,10 @@ import ResetPassword from "./components/auth/ResetPassword";
 const App = () => {
   const { flashMsgs } = useSelector(state => state.flash);
   const dispatch = useDispatch();
-  console.log(process.env.NODE_ENV)
+
   useEffect(() => {
     //If in .herokuapp url OR in http url, redirect to live url. Doesn't redirect in localhost
-    if ((window.location.hostname.includes('herokuapp') || window.location.protocol.includes('http:')) && !window.location.hostname.includes('localhost')) {
+    if ((window.location.hostname.includes('netlify') || window.location.protocol.includes('http:')) && !window.location.hostname.includes('localhost')) {
       window.location.replace("https://quickbrainracers.com");
     }
 
