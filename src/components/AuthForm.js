@@ -30,7 +30,7 @@ const AuthForm = ({ buttonText }) => {
     }
 
     const SignIn = async () => {
-        axios.post('/login', querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
             .then(res => {
                 if (res.status === 200) {
                     localStorage.setItem('jwt', document.cookie.match("(^|;)\\s*jwt\\s*=\\s*([^;]+)")?.pop() || "");
@@ -42,13 +42,15 @@ const AuthForm = ({ buttonText }) => {
                 }
             })
             .catch(err => {
+                console.log(err)
+                console.log(err.response)
                 setErrorMsg(err.response.data);
                 setIsProcessing(false);
             })
     }
 
     const SignUp = () => {
-        axios.post('/register', querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/register`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(res => {
                 SignIn();
                 dispatch(addFlashMsg({ msg: "Successfully signed up!", type: 'success' }))

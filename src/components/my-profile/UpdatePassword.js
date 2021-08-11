@@ -31,7 +31,7 @@ const UpdatePassword = () => {
         }
         setIsProcessing(true);
 
-        axios.post('/updatepassword', querystring.stringify({ oldPass, newPass }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/updatepassword`, querystring.stringify({ oldPass, newPass }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
             .then(res => {
                 dispatch(addFlashMsg({ msg: res.data, type: 'success' }))
                 setOldPass("");

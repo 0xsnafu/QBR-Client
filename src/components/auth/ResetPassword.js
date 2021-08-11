@@ -33,7 +33,7 @@ const ResetPassword = () => {
         }
         setIsProcessing(true);
 
-        axios.post('/reset-password', querystring.stringify({ password: newPass, token }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/reset-password`, querystring.stringify({ password: newPass, token }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
             .then(res => {
                 dispatch(addFlashMsg({ type: 'success', msg: res.data }));
                 setIsProcessing(false);

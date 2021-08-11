@@ -22,7 +22,7 @@ const SetUsername = () => {
         e.preventDefault();
         setIsProcessing(true);
 
-        axios.post('/setusername', querystring.stringify({ username }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/setusername`, querystring.stringify({ username }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
             .then(res => {
                 dispatch(updateUser())
                 dispatch(addFlashMsg({ msg: res.data, type: 'success' }))
