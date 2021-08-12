@@ -25,12 +25,12 @@ const Game = () => {
     const Connect = (queryRoomId) => {
         //queryRoomId will be undefined if creating a room. If joining, queryRoomId should be the room id
         if (inParty && queryRoomId === undefined) { //Will create party Room
-            socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/ws?inParty=true&roomID=`);
+            socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/ws?inParty=true&roomID=&token=${localStorage.getItem('jwt')}`);
         } else if (queryRoomId !== undefined) { //Will join party Room
             if (!inParty) { dispatch(setInParty(true)) }
-            socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/ws?inParty=true&roomID=${queryRoomId}`);
+            socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/ws?inParty=true&roomID=${queryRoomId}&token=${localStorage.getItem('jwt')}`);
         } else { //Will search for open room
-            socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/ws?inParty=false&roomID=`);
+            socket = new WebSocket(`${process.env.REACT_APP_WS_URL}/ws?inParty=false&roomID=&token=${localStorage.getItem('jwt')}`);
         }
     }
 
