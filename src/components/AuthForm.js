@@ -37,7 +37,7 @@ const AuthForm = ({ buttonText }) => {
                     console.log(document.cookie)
                     console.log(Cookies.get())
 
-                    localStorage.setItem('jwt', document.cookie.match("(^|;)\\s*jwt\\s*=\\s*([^;]+)")?.pop() || "X");
+                    localStorage.setItem('jwt', document.cookie.match("(^|;)\\s*jwt\\s*=\\s*([^;]+)")?.pop() || "");
                     console.log(localStorage.getItem('jwt'))
                     const decoded = jwt_decode(localStorage.getItem('jwt'));
                     dispatch(setUser(decoded));
