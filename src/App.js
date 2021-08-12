@@ -29,8 +29,8 @@ const App = () => {
     // }
 
     //Check for token
-    if (localStorage.jwt) {
-      const decoded = jwt_decode(localStorage.jwt);
+    if (localStorage.getItem('jwt')) {
+      const decoded = jwt_decode(localStorage.getItem('jwt'));
       dispatch(setUser(decoded));
 
       //Check for expired token
