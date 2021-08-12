@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import querystring from 'query-string';
 import jwt_decode from "jwt-decode";
 

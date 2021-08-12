@@ -11,7 +11,6 @@
     "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
-    "js-cookie": "^3.0.0",
     "jwt-decode": "^3.1.2",
     "postcss": "^7.0.35",
     "query-string": "^7.0.1",
