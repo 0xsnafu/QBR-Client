@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import querystring from 'query-string';
 import jwt_decode from "jwt-decode";
 
@@ -33,10 +34,7 @@ const AuthForm = ({ buttonText }) => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(res => {
                 if (res.status === 200) {
-                    console.log(res.data)
-
-                    localStorage.setItem('jwt', document.cookie.match("(^|;)\\s*" + "jwt" + "\\s*=\\s*([^;]+)")?.pop() || "X");
-                    console.log(localStorage.getItem('jwt'))
+                    localStorage.setItem('jwt', Cookies.get('jwt'));
                     const decoded = jwt_decode(localStorage.getItem('jwt'));
                     dispatch(setUser(decoded));
                     dispatch(addFlashMsg({ msg: "Welcome back!😎", type: 'success' }))
