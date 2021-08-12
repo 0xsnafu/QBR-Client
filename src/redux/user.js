@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const updateUser = createAsyncThunk(
     'user/updateUser',
     async (thunkAPI) => {
-        const response = await axios.get('/getuser')
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/getuser`)
         return response.data
     }
 )
@@ -25,7 +25,7 @@ export const userSlice = createSlice({
             state.user = payload;
             localStorage.removeItem('jwt');
 
-            axios.post('/logout')
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`)
                 .then(res => {
                     // localStorage.removeItem('jwt');
                 })

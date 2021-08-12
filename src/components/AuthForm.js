@@ -28,7 +28,7 @@ const AuthForm = ({ buttonText }) => {
             SignUp();
         }
     }
-    console.log(process.env.REACT_APP_SERVER_URL)
+
     const SignIn = async () => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
             .then(res => {
@@ -43,7 +43,6 @@ const AuthForm = ({ buttonText }) => {
             })
             .catch(err => {
                 console.log(err)
-                console.log(err.response)
                 setErrorMsg(err.response.data);
                 setIsProcessing(false);
             })
