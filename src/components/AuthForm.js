@@ -34,11 +34,7 @@ const AuthForm = ({ buttonText }) => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(res => {
                 if (res.status === 200) {
-                    console.log(document.cookie)
-                    console.log(Cookies.get())
-
-                    localStorage.setItem('jwt', document.cookie.match("(^|;)\\s*jwt\\s*=\\s*([^;]+)")?.pop() || "");
-                    console.log(localStorage.getItem('jwt'))
+                    localStorage.setItem('jwt', res.data);
                     const decoded = jwt_decode(localStorage.getItem('jwt'));
                     dispatch(setUser(decoded));
                     dispatch(addFlashMsg({ msg: "Welcome back!😎", type: 'success' }))
