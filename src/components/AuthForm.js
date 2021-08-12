@@ -31,9 +31,8 @@ const AuthForm = ({ buttonText }) => {
     }
 
     const SignIn = async () => {
-        axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { withCredentials: true })
             .then(res => {
-                console.log(res)
                 if (res.status === 200) {
                     setAuthToken(res.data);
                     localStorage.setItem('jwt', res.data);
@@ -53,7 +52,7 @@ const AuthForm = ({ buttonText }) => {
     }
 
     const SignUp = () => {
-        axios.post(`${process.env.REACT_APP_SERVER_URL}/register`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        axios.post(`${process.env.REACT_APP_SERVER_URL}/register`, querystring.stringify({ email, password }))
             .then(res => {
                 SignIn();
                 dispatch(addFlashMsg({ msg: "Successfully signed up!", type: 'success' }))

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import setAuthToken from '../utils/setAuthToken';
@@ -7,7 +8,6 @@ export const updateUser = createAsyncThunk(
     'user/updateUser',
     async (thunkAPI) => {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/getuser`)
-        console.log(response)
         return response.data
     }
 )
@@ -36,11 +36,15 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(updateUser.fulfilled, (state, { payload }) => {
-            // state.user.username = payload.username;
-            // state.user.gamesPlayed = payload.gamesPlayed;
-            // state.user.gamesWon = payload.gamesWon;
-            // state.user.isVerified = payload.isVerified;
-            console.log(payload)
+            //Update the User state
+            const decoded = jwt_decode(payload);
+
+            state.user.username = decoded.username;
+            state.user.gamesPlayed = decoded.gamesPlayed;
+            state.user.gamesWon = decoded.gamesWon;
+            state.user.isVerified = decoded.isVerified;
+
+            //Update local storage token and axios token
             setAuthToken(payload)
             localStorage.setItem('jwt', payload);
         })
