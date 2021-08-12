@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import { useDispatch } from 'react-redux';
 import { addFlashMsg } from './../redux/flash';
 import { setUser } from '../redux/user';
+import setAuthToken from '../utils/setAuthToken';
 
 import Spinner from './Spinner';
 import ErrorMsg from './ErrorMsg';
@@ -33,9 +34,10 @@ const AuthForm = ({ buttonText }) => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true })
             .then(res => {
                 console.log(res)
-                console.log(res.data)
                 if (res.status === 200) {
+                    setAuthToken(res.data);
                     localStorage.setItem('jwt', res.data);
+
                     const decoded = jwt_decode(localStorage.getItem('jwt'));
                     dispatch(setUser(decoded));
                     dispatch(addFlashMsg({ msg: "Welcome back!😎", type: 'success' }))

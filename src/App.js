@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logoutUser } from './redux/user';
 import MyProfile from "./components/my-profile/MyProfile";
 import ResetPassword from "./components/auth/ResetPassword";
+import setAuthToken from './utils/setAuthToken';
 
 const App = () => {
   const { flashMsgs } = useSelector(state => state.flash);
@@ -30,6 +31,7 @@ const App = () => {
 
     //Check for token
     if (localStorage.getItem('jwt')) {
+
       const decoded = jwt_decode(localStorage.getItem('jwt'));
       dispatch(setUser(decoded));
 
@@ -38,6 +40,8 @@ const App = () => {
       if (decoded.exp < currentTime) {
         dispatch(logoutUser());
       }
+
+      setAuthToken(localStorage.getItem('jwt'));
     }
   }, [dispatch, flashMsgs])
 

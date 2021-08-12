@@ -1,11 +1,13 @@
 import axios from 'axios';
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import setAuthToken from '../utils/setAuthToken';
 
 export const updateUser = createAsyncThunk(
     'user/updateUser',
     async (thunkAPI) => {
         const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/getuser`)
+        console.log(response)
         return response.data
     }
 )
@@ -34,12 +36,13 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(updateUser.fulfilled, (state, { payload }) => {
-            state.user.username = payload.username;
-            state.user.gamesPlayed = payload.gamesPlayed;
-            state.user.gamesWon = payload.gamesWon;
-            state.user.isVerified = payload.isVerified;
-
-            localStorage.setItem('jwt', document.cookie.match("(^|;)\\s*jwt\\s*=\\s*([^;]+)")?.pop() || "");
+            // state.user.username = payload.username;
+            // state.user.gamesPlayed = payload.gamesPlayed;
+            // state.user.gamesWon = payload.gamesWon;
+            // state.user.isVerified = payload.isVerified;
+            console.log(payload)
+            setAuthToken(payload)
+            localStorage.setItem('jwt', payload);
         })
     },
 })
