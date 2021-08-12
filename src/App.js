@@ -25,9 +25,9 @@ const App = () => {
 
   useEffect(() => {
     //If in .herokuapp url OR in http url, redirect to live url. Doesn't redirect in localhost
-    // if ((window.location.hostname.includes('nXetlifXy') || window.location.protocol.includes('http:')) && !window.location.hostname.includes('localhost')) {
-    //   window.location.replace("https://quickbrainracers.com");
-    // }
+    if ((window.location.hostname.includes('netlify') || window.location.protocol.includes('http:')) && !window.location.hostname.includes('localhost')) {
+      window.location.replace("https://quickbrainracers.com");
+    }
 
     //Check for token
     if (localStorage.getItem('jwt')) {
