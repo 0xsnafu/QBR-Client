@@ -33,7 +33,11 @@ const AuthForm = ({ buttonText }) => {
     const SignIn = async () => {
         axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, querystring.stringify({ email, password }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then(res => {
+                console.log(res)
                 if (res.status === 200) {
+                    console.log(document.cookie)
+                    console.log(Cookies.get())
+                    console.log(Cookies.get('jwt'))
                     localStorage.setItem('jwt', Cookies.get('jwt'));
                     const decoded = jwt_decode(localStorage.getItem('jwt'));
                     dispatch(setUser(decoded));
