@@ -89,7 +89,7 @@ const AuthForm = ({ buttonText }) => {
                 <ErrorMsg errorMsg={errorMsg} />
             </div>
 
-            <button className='bg-green-500 hover:bg-green-700 block mx-auto w-1/4' disabled={isProcessing ? true : false}>
+            <button className='bg-green-500 hover:bg-green-700 block mx-auto w-4/12' disabled={isProcessing ? true : false}>
                 {isProcessing ? <Spinner /> : buttonText}
             </button>
 
