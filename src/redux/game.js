@@ -53,6 +53,7 @@ export const gameSlice = createSlice({
             state.rankings = [];
             state.status = 4;
             state.userList = state.inParty ? state.userList : [];
+            state.isHost = false;
         },
     },
 })

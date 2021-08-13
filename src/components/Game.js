@@ -39,10 +39,11 @@ const Game = () => {
         let query = queryString.parse(window.location.search);
 
         //Makes this player the host if creating a Party Room
-        if (query.roomID === undefined) {
+        if (query.roomID === undefined && inParty) {
             dispatch(setIsHost(true));
         } else {
             dispatch(setIsHost(false));
+            dispatch(setUserList([]))
         }
 
         if (!socket && query.roomID) { Connect(query.roomID) }
