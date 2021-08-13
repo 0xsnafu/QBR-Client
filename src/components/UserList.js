@@ -11,8 +11,7 @@ const UserList = () => {
                     case 0: return <img className='mx-auto' src={window.location.origin + '/medals/first-medal.png'} alt='First place medal' />
                     case 1: return <img className='mx-auto' src={window.location.origin + '/medals/second-medal.png'} alt='Second place medal' />
                     case 2: return <img className='mx-auto' src={window.location.origin + '/medals/third-medal.png'} alt='Third place medal' />
-                    case 3: return '4th'
-                    default: return ''
+                    default: return (i + 1) + 'th' //For rankings after 3, for larger games
                 }
             }
         }

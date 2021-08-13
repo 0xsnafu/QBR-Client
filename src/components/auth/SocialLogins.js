@@ -21,6 +21,7 @@ const SocialLogins = ({ buttonText }) => {
 
     //GOOGLE
     const responseGoogle = (response) => {
+        console.log(999)
         SendRequest(response.profileObj.email)
     }
 
@@ -54,9 +55,7 @@ const SocialLogins = ({ buttonText }) => {
                     clientId={process.env.REACT_APP_GOOGLE_ID}
                     buttonText={buttonText}
                     onSuccess={(e) => responseGoogle(e)}
-                    onFailure={(e) => responseGoogle(e)}
                     cookiePolicy={'single_host_origin'}
-                    className='blocqk'
                 />
             </div>
         </div>
