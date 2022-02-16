@@ -21,7 +21,6 @@ const SocialLogins = ({ buttonText }) => {
 
     //GOOGLE
     const responseGoogle = (response) => {
-        console.log(999)
         SendRequest(response.profileObj.email)
     }
 
