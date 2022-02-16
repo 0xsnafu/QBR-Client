@@ -6,6 +6,12 @@
 .fb-button{ background-color: #4C69BA;}
 .fb-button i {margin-right: .5em;}
   
+.memory-card{
+  height: 300px;
+  /* width: 150px; */
+  /* background-color: gainsboro; */
+}
+
 /* Fireworks */
 .pyro > .before, .pyro > .after {
   position: absolute;

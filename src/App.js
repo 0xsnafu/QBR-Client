@@ -18,6 +18,7 @@ import { setUser, logoutUser } from './redux/user';
 import MyProfile from "./components/my-profile/MyProfile";
 import ResetPassword from "./components/auth/ResetPassword";
 import setAuthToken from './utils/setAuthToken';
+import Memory from "./components/Memory";
 
 const App = () => {
   const { flashMsgs } = useSelector(state => state.flash);
@@ -62,6 +63,7 @@ const App = () => {
         <Route exact path='/my-profile' component={MyProfile} />
         <Route exact path='/reset-password/:token' component={ResetPassword} />
 
+        <Memory />
       </div>
     </Router>
   );
