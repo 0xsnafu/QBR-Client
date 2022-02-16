@@ -1,15 +1,15 @@
 
-const MemoryItem = ({ value }) => {
+const MemoryItem = ({ card }) => {
 
     const SetCardColor = () => {
-        if (value.isSelected) return 'green';
-        if (!value.isSelected && !value.isPaired) return 'gray';
-        if (value.isPaired) return 'purple';
+        if (card.isSelected) return 'green';
+        if (!card.isSelected && !card.isPaired) return 'gray';
+        if (card.isPaired) return 'purple';
     }
 
     return (
         <div className={`memory-card w-full h-full text-center bg-${SetCardColor()}-500 rounded`}>
-            <p className="text-white font-bold">{value.color}</p>
+            <p className="text-white font-bold">{card.color}</p>
         </div>
     )
 }

@@ -8,17 +8,17 @@ import './styles/tailwindcomponents.css';
 import './styles/index.css';
 import './styles/App.css';
 
-import Landing from "./components/Landing";
+import Landing from "./components/views/Landing";
 import Navbar from "./components/Navbar";
-import About from "./components/About";
-import Game from "./components/Game";
+import About from "./components/views/About";
+import Game from "./components/views/Game";
+import Memory from "./components/views/Memory";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logoutUser } from './redux/user';
 import MyProfile from "./components/my-profile/MyProfile";
 import ResetPassword from "./components/auth/ResetPassword";
 import setAuthToken from './utils/setAuthToken';
-import Memory from "./components/Memory";
 
 const App = () => {
   const { flashMsgs } = useSelector(state => state.flash);

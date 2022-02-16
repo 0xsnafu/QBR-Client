@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 // import { useDispatch } from 'react-redux';
 // import { setInParty } from '../redux/game';
 // import ErrorMsg from './ErrorMsg';
-import MemoryItem from './items/MemoryItem';
+import MemoryItem from '../items/MemoryItem';
 
 // if (process.env.NODE_ENV !== 'development') {
 //     ReactGA.initialize('UA-103417969-4');
@@ -85,12 +85,13 @@ const Memory = () => {
 
     return (
         <div>
-            <h2>Memory</h2>
+            <h2 className='text-3xl font-bold text-center'>Memory</h2>
+            <hr className='my-2' />
 
             <div className="grid grid-cols-12 gap-4">
                 {cards.map((card, index) => (
-                    <div className='col-span-3' onClick={() => FlipCard(card)}>
-                        <MemoryItem key={index} value={card} />
+                    <div key={index} className='col-span-3' onClick={() => FlipCard(card)}>
+                        <MemoryItem card={card} />
                     </div>
                 ))}
             </div>

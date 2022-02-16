@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ReactGA from 'react-ga';
-import PrivacyPolicy from './PrivacyPolicy';
-import TermsAndConditions from './TermsAndConditions';
+import PrivacyPolicy from '../PrivacyPolicy';
+import TermsAndConditions from '../TermsAndConditions';
 
 if (process.env.NODE_ENV !== 'development') {
     ReactGA.initialize('UA-103417969-4');

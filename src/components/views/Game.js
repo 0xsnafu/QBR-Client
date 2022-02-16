@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMyID, setRoomID, setUserList, setQuestion, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner } from '../redux/game';
+import { setMyID, setRoomID, setUserList, setQuestion, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner } from '../../redux/game';
 
-import UserList from "./UserList";
-import Fireworks from "./Fireworks";
-import QuestionDisplay from "./QuestionDisplay";
+import UserList from "../UserList";
+import Fireworks from "../Fireworks";
+import QuestionDisplay from "../QuestionDisplay";
 
-import { OrderUserList } from "../utils/userUtils";
-import { IsMatchOver } from "../utils/gameUtils";
+import { OrderUserList } from "../../utils/userUtils";
+import { IsMatchOver } from "../../utils/gameUtils";
 
 if (process.env.NODE_ENV !== 'development') {
     ReactGA.initialize('UA-103417969-4');
