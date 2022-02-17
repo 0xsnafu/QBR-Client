@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+
 import { IsMatchOver } from '../utils/gameUtils';
 import { ResetState } from '../redux/game';
-import { useDispatch, useSelector } from 'react-redux';
 
-import Countdown from './Countdown';
-import Choices from './Choices';
+import Math from './games/Math';
+import Memory from './games/Memory';
+import GameStatus from './GameStatus';
+import Fireworks from "./Fireworks";
 
-const QuestionDisplay = ({ socket }) => {
-    const { myID, question, rankings, count, status, inParty, isHost } = useSelector(state => state.game);
+const GameWindow = ({ socket, gameType }) => {
+    const { question, status, inParty, rankings, myID, isHost } = useSelector(state => state.game);
     const dispatch = useDispatch();
 
     const [isButtonVisible, setIsButtonVisible] = useState(true);
@@ -30,6 +33,7 @@ const QuestionDisplay = ({ socket }) => {
             }
         }
 
+        // eslint-disable-next-line
     }, [status, isHost, question, inParty, rankings, myID])
 
     const GenerateMessage = (statusToSend) => {
@@ -49,31 +53,29 @@ const QuestionDisplay = ({ socket }) => {
         }
     }
 
+    const DisplayGame = () => {
+        if (status === 0 || status === 4) return <GameStatus status={status} />;
+        if (gameType === "Math") return <Math socket={socket} question={question} />;
+        if (gameType === "Memory") return <Memory socket={socket} />;
+    }
+
     return (
-        <>
-            {status === 0 && (<p>Match starts in <Countdown count={count} /></p>)}
+        <div>
 
-            {(status === 4 && !inParty && (<h3>Searching for players...</h3>))}
+            {DisplayGame()}
 
-            {status === 5 && (
-                <>
-                    <p className='text-2xl md:text-4xl my-2'>{question.choices !== undefined && question.message}</p>
+            <audio id='victory-audio' src='/audio/victory-sound.mp3' preload='auto' />
+            <audio id='fireworks-audio' src='/audio/fireworks-sound.mp3' preload='auto' />
+            <audio id='correct-audio' src='/audio/correct-sound.mp3' preload='auto' />
+            <audio id='incorrect-audio' src='/audio/incorrect-sound.mp3' preload='auto' />
 
-                    <div className='grid grid-cols-2 md:grid-cols-6 '>
-                        <Choices socket={socket} />
-                    </div>
+            <Fireworks />
 
-                    <audio id='victory-audio' src='/audio/victory-sound.mp3' preload='auto' />
-                    <audio id='fireworks-audio' src='/audio/fireworks-sound.mp3' preload='auto' />
-                    <audio id='correct-audio' src='/audio/correct-sound.mp3' preload='auto' />
-                    <audio id='incorrect-audio' src='/audio/incorrect-sound.mp3' preload='auto' />
-                </>
-            )}
             {isButtonVisible}
             <button className={`bg-blue-400 hover:bg-blue-600 ${isButtonVisible ? 'inline' : 'hidden'}`}
                 onClick={() => Play()}>{buttonText}</button>
-        </>
+        </div>
     )
 }
 
-export default QuestionDisplay;
+export default GameWindow;

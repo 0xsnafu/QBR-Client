@@ -11,8 +11,8 @@ import './styles/App.css';
 import Landing from "./components/views/Landing";
 import Navbar from "./components/Navbar";
 import About from "./components/views/About";
-import Game from "./components/views/Game";
-import Memory from "./components/views/Memory";
+import Play from "./components/views/Play";
+// import Memory from "./components/games/Memory";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logoutUser } from './redux/user';
@@ -59,11 +59,10 @@ const App = () => {
 
         <Route exact path='/' component={Landing} />
         <Route exact path='/about' component={About} />
-        <Route exact path='/play' component={Game} />
+        <Route exact path='/play' component={Play} />
         <Route exact path='/my-profile' component={MyProfile} />
         <Route exact path='/reset-password/:token' component={ResetPassword} />
 
-        <Memory />
       </div>
     </Router>
   );

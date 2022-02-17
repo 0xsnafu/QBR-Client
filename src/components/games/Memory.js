@@ -11,42 +11,47 @@ import MemoryItem from '../items/MemoryItem';
 //     ReactGA.pageview('/');
 // }
 
-const Memory = () => {
+const Memory = ({ socket }) => {
     const [cards, setCards] = useState([]);
     const [selectedCards, setSelectedCards] = useState([]);
     const [isIncorrect, setIsIncorrect] = useState(false);
 
     useEffect(() => {
         if (cards.length === 0) { //Only run on start, when there are no cards loaded
-            let temp = [];
-            for (let i = 0; i < 5; i++) {
-                let redCard = {
-                    index: 0,
-                    color: "red",
-                    isSelected: false,
-                    isPaired: false
-                }
-                let blueCard = {
-                    index: 0,
-                    color: "blue",
-                    isSelected: false,
-                    isPaired: false
-                }
-                if (i === 0 || i === 3) {
-                    redCard.index = i;
-                    temp.push(redCard);
-                } else {
-                    blueCard.index = i;
-                    temp.push(blueCard);
-                }
-            }
-
-            setCards(temp);
+            PopulateCards();
         }
 
         CheckForPairs();
+
         // eslint-disable-next-line
     }, [selectedCards, cards])
+
+    const PopulateCards = () => {
+        let temp = [];
+        for (let i = 0; i < 5; i++) {
+            let redCard = {
+                index: 0,
+                color: "red",
+                isSelected: false,
+                isPaired: false
+            }
+            let blueCard = {
+                index: 0,
+                color: "blue",
+                isSelected: false,
+                isPaired: false
+            }
+            if (i === 0 || i === 3) {
+                redCard.index = i;
+                temp.push(redCard);
+            } else {
+                blueCard.index = i;
+                temp.push(blueCard);
+            }
+        }
+
+        setCards(temp);
+    }
 
     const CheckForPairs = () => {
         if (selectedCards.length === 2) { //Check cards for pair

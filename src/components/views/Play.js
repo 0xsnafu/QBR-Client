@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMyID, setRoomID, setUserList, setQuestion, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner } from '../../redux/game';
 
 import UserList from "../UserList";
-import Fireworks from "../Fireworks";
-import QuestionDisplay from "../QuestionDisplay";
 
 import { OrderUserList } from "../../utils/userUtils";
 import { IsMatchOver } from "../../utils/gameUtils";
+import GameWindow from '../GameWindow';
 
-if (process.env.NODE_ENV !== 'development') {
-    ReactGA.initialize('UA-103417969-4');
-    ReactGA.pageview('/play');
-}
+// if (process.env.NODE_ENV !== 'development') {
+//     ReactGA.initialize('UA-103417969-4');
+//     ReactGA.pageview('/play');
+// }
 
 let socket;
 
-const Game = () => {
+const Play = () => {
     const { myID, roomID, userList, question, rankings, inParty, isHost, isWinner } = useSelector(state => state.game);
     const dispatch = useDispatch();
 
@@ -99,8 +98,6 @@ const Game = () => {
                     dispatch(setQuestion(JSON.parse(msg.body)));
                     break;
                 case 6: //Receiving Game Type
-                    // dispatch(setStatus(6));
-                    // console.log(msg.body[0]);
                     setGameType(msg.body[0]);
                     break;
                 case 8: //Receiving Rankings
@@ -139,27 +136,23 @@ const Game = () => {
     }, [inParty, question, rankings, myID, isWinner, userList, isHost])
 
     return (
-        <>
-            <div className='grid grid-cols-12 gap-4'>
+        <div className='grid grid-cols-12 gap-4'>
 
-                {inParty &&
-                    (<div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8'>
-                        <p className='inline'><span className='font-bold'>Code:</span> {roomID}</p>
-                    </div>)}
+            {inParty &&
+                (<div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8'>
+                    <p className='inline'><span className='font-bold'>Code:</span> {roomID}</p>
+                </div>)}
 
-                <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 border-2 border-green-500 rounded'>
-                    <UserList />
-                </div>
-
-                <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 border-2 border-green-500 rounded p-2 min-h-300 text-center'>
-                    <QuestionDisplay socket={socket} gameType={gameType} />
-                </div>
-
+            <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 border-2 border-green-500 rounded'>
+                <UserList />
             </div>
 
-            <Fireworks />
-        </>
+            <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 border-2 border-green-500 rounded p-2 min-h-300 text-center'>
+                <GameWindow socket={socket} gameType={gameType} />
+            </div>
+
+        </div>
     );
 }
 
-export default Game
+export default Play;
