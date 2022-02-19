@@ -5,6 +5,7 @@ const initialState = {
     roomID: '',
     userList: [],
     question: {},
+    cards: [],
     rankings: [],
     count: 10,
     status: 4,
@@ -28,6 +29,25 @@ export const gameSlice = createSlice({
         },
         setQuestion: (state, action) => {
             state.question = action.payload
+        },
+        setCards: (state, action) => {
+            state.cards = action.payload
+        },
+        selectCard: (state, action) => {
+            state.cards[action.payload.index].isSelected = true;
+        },
+        unselectCards: (state, action) => {
+            for (let i = 0; i < state.cards.length; i++) {
+                state.cards[i].isSelected = false;
+            }
+        },
+        pairCards: (state, action) => {
+            for (let i = 0; i < state.cards.length; i++) {
+                if (state.cards[i].isSelected) {
+                    state.cards[i].isPaired = true;
+                    state.cards[i].isSelected = false;
+                }
+            }
         },
         setRankings: (state, action) => {
             state.rankings = action.payload
@@ -58,6 +78,6 @@ export const gameSlice = createSlice({
     },
 })
 
-export const { setMyID, setRoomID, setUserList, setQuestion, setRankings, setCount, setStatus, setInParty, setIsHost, setIsWinner, ResetState } = gameSlice.actions
+export const { setMyID, setRoomID, setUserList, setQuestion, setCards, selectCard, unselectCards, pairCards, setRankings, setCount, setStatus, setInParty, setIsHost, setIsWinner, ResetState } = gameSlice.actions
 
 export default gameSlice.reducer

@@ -1,78 +1,47 @@
-import { useEffect, useState } from 'react'
-// import ReactGA from 'react-ga';
-// import { Link } from "react-router-dom";
-// import { useDispatch } from 'react-redux';
-// import { setInParty } from '../redux/game';
-// import ErrorMsg from './ErrorMsg';
+import { useEffect, useState } from 'react';
 import MemoryItem from '../items/MemoryItem';
 
-// if (process.env.NODE_ENV !== 'development') {
-//     ReactGA.initialize('UA-103417969-4');
-//     ReactGA.pageview('/');
-// }
+import { IsMatchOver, CheckForPair } from '../../utils/gameUtils';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCard, unselectCards, pairCards } from '../../redux/game';
 
 const Memory = ({ socket }) => {
-    const [cards, setCards] = useState([]);
-    const [selectedCards, setSelectedCards] = useState([]);
+    const { cards, rankings, myID } = useSelector(state => state.game);
+    const dispatch = useDispatch();
+
     const [isIncorrect, setIsIncorrect] = useState(false);
 
     useEffect(() => {
-        if (cards.length === 0) { //Only run on start, when there are no cards loaded
-            PopulateCards();
-        }
-
         CheckForPairs();
 
         // eslint-disable-next-line
-    }, [selectedCards, cards])
+    }, [cards])
 
-    const PopulateCards = () => {
-        let temp = [];
-        for (let i = 0; i < 5; i++) {
-            let redCard = {
-                index: 0,
-                color: "red",
-                isSelected: false,
-                isPaired: false
-            }
-            let blueCard = {
-                index: 0,
-                color: "blue",
-                isSelected: false,
-                isPaired: false
-            }
-            if (i === 0 || i === 3) {
-                redCard.index = i;
-                temp.push(redCard);
-            } else {
-                blueCard.index = i;
-                temp.push(blueCard);
-            }
-        }
 
-        setCards(temp);
-    }
 
     const CheckForPairs = () => {
-        if (selectedCards.length === 2) { //Check cards for pair
-            if (selectedCards[0].color === selectedCards[1].color) { //Match
-                let newCards = [...cards];
-                cards[selectedCards[0].index].isPaired = true;
-                cards[selectedCards[0].index].isSelected = false;
-                cards[selectedCards[1].index].isPaired = true;
-                cards[selectedCards[1].index].isSelected = false;
-                setSelectedCards([]);
-                setCards(newCards);
+        let cardsSelected = cards.filter(card => card.isSelected)
+
+        if (cardsSelected.length === 2) { //Check cards for pair
+            if (CheckForPair(cards)) { //Match
+                dispatch(pairCards());
+
+                console.log(cardsSelected);
+                let message = {
+                    status: 3,
+                    body: [cardsSelected[0].index.toString(), cardsSelected[1].index.toString()]
+                }
+
+                socket.send(JSON.stringify(message))
+
+                document.getElementById('correct-audio').play()
             } else { //No Match
                 setIsIncorrect(true);
+                document.getElementById('incorrect-audio').play()
 
                 setTimeout(() => {
-                    let tempCards = cards;
-                    for (let i = 0; i < tempCards.length; i++) {
-                        tempCards[i].isSelected = false;
-                    }
-                    setSelectedCards([]);
-                    setCards(tempCards)
+                    dispatch(unselectCards());
                     setIsIncorrect(false);
                 }, 750);
             }
@@ -82,24 +51,40 @@ const Memory = ({ socket }) => {
 
     const FlipCard = (card) => {
         if (isIncorrect) return; //Can't flip during Incorrect penalty
-        if (selectedCards.length === 1 && selectedCards[0].index === card.index) return; //Can't flip same card again
-
-        card.isSelected = true;
-        setSelectedCards([...selectedCards, card]);
+        dispatch(selectCard(card));
     }
 
-    return (
-        <div>
-            <h2 className='text-3xl font-bold text-center'>Memory</h2>
-            <hr className='my-2' />
+    // const CheckAnswer = (card) => {
+    //     console.log(99)
+    //     if (IsMatchOver(rankings, myID)) return;
+    //     console.log(88)
 
-            <div className="grid grid-cols-12 gap-4">
-                {cards.map((card, index) => (
-                    <div key={index} className='col-span-3' onClick={() => FlipCard(card)}>
-                        <MemoryItem card={card} />
-                    </div>
-                ))}
-            </div>
+    //     if (CheckForPair(cards)) { //Correct
+    //         console.log(77)
+    //         document.getElementById('correct-audio').play()
+    //     }
+    //     else { //Incorrect
+    //         setIsIncorrect(true);
+    //         document.getElementById('incorrect-audio').play()
+
+    //         setTimeout(() => { setIsIncorrect(false) }, 750);
+    //     }
+
+    //     let message = {
+    //         status: 6,
+    //         body: [card.toString()]
+    //     }
+
+    //     socket.send(JSON.stringify(message))
+    // }
+
+    return (
+        <div className="grid grid-cols-12 gap-4">
+            {cards.map((card, index) => (
+                <div key={index} className='col-span-4' onClick={() => FlipCard(card)}>
+                    <MemoryItem card={card} />
+                </div>
+            ))}
         </div>
     )
 }

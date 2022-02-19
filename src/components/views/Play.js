@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMyID, setRoomID, setUserList, setQuestion, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner } from '../../redux/game';
+import { setMyID, setRoomID, setUserList, setQuestion, setCards, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner } from '../../redux/game';
 
 import UserList from "../UserList";
 
@@ -79,8 +79,11 @@ const Play = () => {
                     dispatch(setCount(msg.body));
                     break;
                 case 1: //Server says start match
-                    //Get Question
-                    message = { status: 5 }
+                    if (gameType === "Math") { //Get Question                    
+                        message = { status: 5 }
+                    } else if (gameType === "Memory") { //Get Cards     
+                        message = { status: 4 }
+                    }
                     socket.send(JSON.stringify(message));
                     break;
                 case 2: //Getting user list        
@@ -95,7 +98,12 @@ const Play = () => {
                     break;
                 case 5: //Receiving Question
                     dispatch(setStatus(5));
-                    dispatch(setQuestion(JSON.parse(msg.body)));
+                    if (gameType === "Math") { //Get Question          
+                        dispatch(setQuestion(JSON.parse(msg.body)));
+                    } else if (gameType === "Memory") { //Get Cards     
+                        console.log(JSON.parse(msg.body))
+                        dispatch(setCards(JSON.parse(msg.body)));
+                    }
                     break;
                 case 6: //Receiving Game Type
                     setGameType(msg.body[0]);

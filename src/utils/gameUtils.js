@@ -8,3 +8,14 @@ export function IsMatchOver(rankings, myId) {
         return false
     }
 }
+
+export function CheckForPair(cards) {
+
+    let selectedCards = cards.filter(card => card.isSelected);
+
+    if (selectedCards[0].color === selectedCards[1].color) {
+        return true;
+    }
+
+    return false;
+}

@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   purge: [
     './public/**/*.html',
@@ -9,7 +11,11 @@ module.exports = {
     minHeight: {
       '300': '300px'
     },
-    extend: {},
+    extend: {
+      colors: {
+        orange: colors.orange
+      }
+    },
   },
   variants: {
     extend: {

@@ -2,7 +2,7 @@
 const MemoryItem = ({ card }) => {
 
     const SetCardColor = () => {
-        if (card.isSelected) return 'green';
+        if (card.isSelected) return card.color;
         if (!card.isSelected && !card.isPaired) return 'gray';
         if (card.isPaired) return 'purple';
     }
