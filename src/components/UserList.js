@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const UserList = () => {
-    const { userList, myID, rankings } = useSelector(state => state.game);
+    const { userList, myID, rankings, gameType } = useSelector(state => state.game);
 
     const CalculateRankings = (userId) => {
         for (let i = 0; i < rankings.length; i++) {
@@ -33,7 +33,7 @@ const UserList = () => {
                         <div className='col-span-3 md:col-span-12'>
                             <div className='grid grid-cols-12'>
                                 <div className='col-span-6 border-r-2 border-green-500'>
-                                    <p className='bg-blackd px-1 text-black md:block md:ml-0 font-bold'>{user.score}</p>
+                                    <p className='bg-blackd px-1 text-black md:block md:ml-0 font-bold'>{gameType === "Memory" && ("Pairs: ")}{user.score}</p>
                                 </div>
                                 <div className='col-span-6'>
                                     <p className='bg-blackd px-1 text-black md:block md:ml-0 font-bold'>{CalculateRankings(user.id)}</p>
