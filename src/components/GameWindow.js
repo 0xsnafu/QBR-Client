@@ -55,7 +55,7 @@ const GameWindow = ({ socket }) => {
 
     const DisplayGame = () => {
         if (status === 0 || status === 4) return <GameStatus status={status} />;
-        if (gameType === "Math") return <Math socket={socket} question={question} />;
+        if (gameType === "Math") return <Math socket={socket} />;
         if (gameType === "Memory") return <Memory socket={socket} />;
     }
 
@@ -71,7 +71,7 @@ const GameWindow = ({ socket }) => {
 
             <Fireworks />
 
-            {isButtonVisible}
+            <br />
             <button className={`bg-blue-400 hover:bg-blue-600 ${isButtonVisible ? 'inline' : 'hidden'}`}
                 onClick={() => Play()}>{buttonText}</button>
         </div>

@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import MemoryItem from '../items/MemoryItem';
 
-import { IsMatchOver, CheckForPair } from '../../utils/gameUtils';
+import { CheckForPair } from '../../utils/gameUtils';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCard, unselectCards, pairCards } from '../../redux/game';
 
 const Memory = ({ socket }) => {
-    const { cards, rankings, myID } = useSelector(state => state.game);
+    const { cards } = useSelector(state => state.game);
     const dispatch = useDispatch();
 
-    const [isIncorrect, setIsIncorrect] = useState(false);
+    const [isIncorrect, setIsIncorrect] = useState(false); //Since there is no longer a delay, might be able to get rid of this now
 
     useEffect(() => {
         CheckForPairs();
@@ -40,10 +40,8 @@ const Memory = ({ socket }) => {
                 setIsIncorrect(true);
                 document.getElementById('incorrect-audio').play()
 
-                setTimeout(() => {
-                    dispatch(unselectCards());
-                    setIsIncorrect(false);
-                }, 750);
+                dispatch(unselectCards());
+                setIsIncorrect(false);
             }
 
         }
@@ -51,32 +49,9 @@ const Memory = ({ socket }) => {
 
     const FlipCard = (card) => {
         if (isIncorrect) return; //Can't flip during Incorrect penalty
+        if (card.isSelected || card.isPaired) return;
         dispatch(selectCard(card));
     }
-
-    // const CheckAnswer = (card) => {
-    //     console.log(99)
-    //     if (IsMatchOver(rankings, myID)) return;
-    //     console.log(88)
-
-    //     if (CheckForPair(cards)) { //Correct
-    //         console.log(77)
-    //         document.getElementById('correct-audio').play()
-    //     }
-    //     else { //Incorrect
-    //         setIsIncorrect(true);
-    //         document.getElementById('incorrect-audio').play()
-
-    //         setTimeout(() => { setIsIncorrect(false) }, 750);
-    //     }
-
-    //     let message = {
-    //         status: 6,
-    //         body: [card.toString()]
-    //     }
-
-    //     socket.send(JSON.stringify(message))
-    // }
 
     return (
         <div className="grid grid-cols-12 gap-4">

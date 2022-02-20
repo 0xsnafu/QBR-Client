@@ -1,11 +1,12 @@
+import { useSelector } from 'react-redux';
+
 import Choices from '../Choices';
 
-const Math = ({ socket, question }) => {
+const Math = ({ socket }) => {
+    const { question } = useSelector(state => state.game);
 
     return (
         <div>
-            <h1>MATH</h1>
-
             <p className='text-2xl md:text-4xl my-2'>{question.choices !== undefined && question.message}</p>
 
             <div className='grid grid-cols-2 md:grid-cols-6 '>

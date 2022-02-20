@@ -10,7 +10,6 @@ export function IsMatchOver(rankings, myId) {
 }
 
 export function CheckForPair(cards) {
-
     let selectedCards = cards.filter(card => card.isSelected);
 
     if (selectedCards[0].color === selectedCards[1].color) {
