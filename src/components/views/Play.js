@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMyID, setRoomID, setUserList, setQuestion, setCards, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner } from '../../redux/game';
+import { setMyID, setRoomID, setUserList, setQuestion, setCards, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner, setGameType } from '../../redux/game';
 
 import UserList from "../UserList";
 
@@ -18,10 +18,8 @@ import GameWindow from '../GameWindow';
 let socket;
 
 const Play = () => {
-    const { myID, roomID, userList, question, rankings, inParty, isHost, isWinner } = useSelector(state => state.game);
+    const { myID, roomID, userList, question, rankings, inParty, isHost, isWinner, gameType } = useSelector(state => state.game);
     const dispatch = useDispatch();
-
-    const [gameType, setGameType] = useState("");
 
     const Connect = (queryRoomId) => {
         //queryRoomId will be undefined if creating a room. If joining, queryRoomId should be the room id
@@ -101,12 +99,12 @@ const Play = () => {
                     if (gameType === "Math") { //Get Question          
                         dispatch(setQuestion(JSON.parse(msg.body)));
                     } else if (gameType === "Memory") { //Get Cards     
-                        console.log(JSON.parse(msg.body))
                         dispatch(setCards(JSON.parse(msg.body)));
                     }
                     break;
                 case 6: //Receiving Game Type
-                    setGameType(msg.body[0]);
+                    console.log(msg.body[0]);
+                    dispatch(setGameType(msg.body[0]));
                     break;
                 case 8: //Receiving Rankings
                     dispatch(setRankings(msg.body));
@@ -156,7 +154,7 @@ const Play = () => {
             </div>
 
             <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 border-2 border-green-500 rounded p-2 min-h-300 text-center'>
-                <GameWindow socket={socket} gameType={gameType} />
+                <GameWindow socket={socket} />
             </div>
 
         </div>

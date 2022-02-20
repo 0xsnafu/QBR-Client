@@ -9,8 +9,8 @@ import Memory from './games/Memory';
 import GameStatus from './GameStatus';
 import Fireworks from "./Fireworks";
 
-const GameWindow = ({ socket, gameType }) => {
-    const { question, status, inParty, rankings, myID, isHost } = useSelector(state => state.game);
+const GameWindow = ({ socket }) => {
+    const { question, status, inParty, rankings, myID, isHost, gameType } = useSelector(state => state.game);
     const dispatch = useDispatch();
 
     const [isButtonVisible, setIsButtonVisible] = useState(true);
