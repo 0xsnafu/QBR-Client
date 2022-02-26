@@ -13,7 +13,9 @@ module.exports = {
     },
     extend: {
       colors: {
-        orange: colors.orange
+        orange: colors.orange,
+        // cyan: colors.cyan,
+        // emerald: colors.green
       }
     },
   },

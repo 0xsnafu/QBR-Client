@@ -71,13 +71,17 @@ export const gameSlice = createSlice({
         setGameType: (state, action) => {
             state.gameType = action.payload
         },
-        ResetState: (state) => {
+        ResetState: (state, action) => {
             state.question = {};
             state.roomID = state.inParty ? state.roomID : "";
             state.rankings = [];
             state.status = 4;
-            state.userList = state.inParty ? state.userList : [];
             state.isHost = false;
+            state.cards = [];
+
+            if (action.payload === true) { //Disconnecting
+                state.userList = [];
+            }
         },
     },
 })

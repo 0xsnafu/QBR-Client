@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import ReactGA from 'react-ga';
+import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMyID, setRoomID, setUserList, setQuestion, setCards, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner, setGameType } from '../../redux/game';
@@ -10,10 +10,10 @@ import { OrderUserList } from "../../utils/userUtils";
 import { IsMatchOver } from "../../utils/gameUtils";
 import GameWindow from '../GameWindow';
 
-// if (process.env.NODE_ENV !== 'development') {
-//     ReactGA.initialize('UA-103417969-4');
-//     ReactGA.pageview('/play');
-// }
+if (process.env.NODE_ENV !== 'development') {
+    ReactGA.initialize('UA-103417969-4');
+    ReactGA.pageview('/play');
+}
 
 let socket;
 
@@ -54,7 +54,7 @@ const Play = () => {
 
                 socket.close(1000); //1000 is normal closing status for WS
                 socket = undefined;
-                dispatch(ResetState());
+                dispatch(ResetState(true));
             }
             Disconnect()
         }
@@ -72,7 +72,7 @@ const Play = () => {
 
             switch (msg.status) {
                 case 0: //Receiving countdown
-                    if (inParty && IsMatchOver(rankings, myID)) { dispatch(ResetState()); }
+                    if (inParty && IsMatchOver(rankings, myID)) { dispatch(ResetState(false)); }
                     dispatch(setStatus(0));
                     dispatch(setCount(msg.body));
                     break;
@@ -86,7 +86,7 @@ const Play = () => {
                     break;
                 case 2: //Getting user list        
                     let clientList = msg.body;
-                    dispatch(setUserList(OrderUserList(userList, clientList, question.message ? true : false)));
+                    dispatch(setUserList(OrderUserList(userList, clientList, question.message ? true : false))); // *** doesn't work for memory
                     break;
                 case 3: //Getting my ID
                     dispatch(setMyID(msg.body[0]));
@@ -103,14 +103,20 @@ const Play = () => {
                     }
                     break;
                 case 6: //Receiving Game Type
-                    console.log(msg.body[0]);
                     dispatch(setGameType(msg.body[0]));
                     break;
                 case 8: //Receiving Rankings
                     dispatch(setRankings(msg.body));
+
+                    if (IsMatchOver(msg.body, myID)) { //Only set status as game over, when this player is done. Not other players
+                        dispatch(setStatus(11));
+                    }
                     break;
                 case 10: //Receive Room ID
                     dispatch(setRoomID(msg.body[0]));
+                    break;
+                case 11: //Post Game - Not currently called, just a placeholder to remember this status exists.
+                    dispatch(setStatus(11));
                     break;
                 default: console.log("DEFAULT: msg.status: ", msg.status); break;
             }
@@ -153,7 +159,7 @@ const Play = () => {
                 <UserList />
             </div>
 
-            <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 border-2 border-green-500 rounded p-2 min-h-300 text-center'>
+            <div className='col-start-2 col-span-10 md:col-start-3 md:col-span-8 rounded min-h-300 text-center'>
                 <GameWindow socket={socket} />
             </div>
 

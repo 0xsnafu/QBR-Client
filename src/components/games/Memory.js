@@ -27,7 +27,6 @@ const Memory = ({ socket }) => {
             if (CheckForPair(cards)) { //Match
                 dispatch(pairCards());
 
-                console.log(cardsSelected);
                 let message = {
                     status: 3,
                     body: [cardsSelected[0].index.toString(), cardsSelected[1].index.toString()]
@@ -40,8 +39,10 @@ const Memory = ({ socket }) => {
                 setIsIncorrect(true);
                 document.getElementById('incorrect-audio').play()
 
-                dispatch(unselectCards());
-                setIsIncorrect(false);
+                setTimeout(() => {
+                    dispatch(unselectCards());
+                    setIsIncorrect(false);
+                }, 500);
             }
 
         }
@@ -56,7 +57,7 @@ const Memory = ({ socket }) => {
     return (
         <div className="grid grid-cols-12 gap-4">
             {cards.map((card, index) => (
-                <div key={index} className='col-span-4' onClick={() => FlipCard(card)}>
+                <div key={index} className='col-span-4 md:col-span-3' onClick={() => FlipCard(card)}>
                     <MemoryItem card={card} />
                 </div>
             ))}

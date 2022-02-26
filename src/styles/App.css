@@ -6,10 +6,10 @@
 .fb-button{ background-color: #4C69BA;}
 .fb-button i {margin-right: .5em;}
   
-.memory-card{
-  height: 300px;
-  /* width: 150px; */
-  /* background-color: gainsboro; */
+.memory-card{ height: 12em; }
+
+@media only screen and (max-width: 768px){
+  .memory-card{ height: 6em; }
 }
 
 /* Fireworks */

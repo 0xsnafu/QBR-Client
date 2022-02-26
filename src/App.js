@@ -12,7 +12,6 @@ import Landing from "./components/views/Landing";
 import Navbar from "./components/Navbar";
 import About from "./components/views/About";
 import Play from "./components/views/Play";
-// import Memory from "./components/games/Memory";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, logoutUser } from './redux/user';
