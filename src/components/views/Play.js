@@ -69,7 +69,7 @@ const Play = () => {
         socket.onmessage = (data) => {
             let msg = JSON.parse(data.data);
             let message;
-            console.log(msg.status)
+
             switch (msg.status) {
                 case 0: //Receiving countdown
                     if (inParty && IsMatchOver(rankings, myID)) { dispatch(ResetState(false)); }
