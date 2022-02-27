@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMyID, setRoomID, setUserList, setQuestion, setCards, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner, setGameType } from '../../redux/game';
+import { setMyID, setRoomID, setUserList, setQuestion, setCards, setRankings, setCount, setStatus, setIsHost, ResetState, setInParty, setIsWinner, setGameType, setScores } from '../../redux/game';
 
 import UserList from "../UserList";
 
@@ -69,7 +69,7 @@ const Play = () => {
         socket.onmessage = (data) => {
             let msg = JSON.parse(data.data);
             let message;
-
+            console.log(msg.status)
             switch (msg.status) {
                 case 0: //Receiving countdown
                     if (inParty && IsMatchOver(rankings, myID)) { dispatch(ResetState(false)); }
@@ -86,8 +86,6 @@ const Play = () => {
                     break;
                 case 2: //Getting user list        
                     let clientList = msg.body;
-                    // console.log(clientList)
-                    // console.log(JSON.parse(clientList[0]))
                     dispatch(setUserList(OrderUserList(userList, clientList, question.message ? true : false))); // *** doesn't work for memory
                     break;
                 case 3: //Getting my ID
@@ -106,6 +104,9 @@ const Play = () => {
                     break;
                 case 6: //Receiving Game Type
                     dispatch(setGameType(msg.body[0]));
+                    break;
+                case 7: //Receiving Score
+                    dispatch(setScores(msg.body));
                     break;
                 case 8: //Receiving Rankings
                     dispatch(setRankings(msg.body));

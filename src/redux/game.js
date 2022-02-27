@@ -71,6 +71,13 @@ export const gameSlice = createSlice({
         setGameType: (state, action) => {
             state.gameType = action.payload
         },
+        setScores: (state, action) => {
+            let scores = action.payload
+
+            for (let i = 0; i < state.userList.length; i++) {
+                state.userList[i].score = parseInt(scores[i])
+            }
+        },
         ResetState: (state, action) => {
             state.question = {};
             state.roomID = state.inParty ? state.roomID : "";
@@ -86,6 +93,6 @@ export const gameSlice = createSlice({
     },
 })
 
-export const { setMyID, setRoomID, setUserList, setQuestion, setCards, selectCard, unselectCards, pairCards, setRankings, setCount, setStatus, setInParty, setIsHost, setIsWinner, setGameType, ResetState } = gameSlice.actions
+export const { setMyID, setRoomID, setUserList, setQuestion, setCards, selectCard, unselectCards, pairCards, setRankings, setCount, setStatus, setInParty, setIsHost, setIsWinner, setGameType, setScores, ResetState } = gameSlice.actions
 
 export default gameSlice.reducer
