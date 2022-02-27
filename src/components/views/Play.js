@@ -86,6 +86,8 @@ const Play = () => {
                     break;
                 case 2: //Getting user list        
                     let clientList = msg.body;
+                    // console.log(clientList)
+                    // console.log(JSON.parse(clientList[0]))
                     dispatch(setUserList(OrderUserList(userList, clientList, question.message ? true : false))); // *** doesn't work for memory
                     break;
                 case 3: //Getting my ID

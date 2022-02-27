@@ -18,7 +18,7 @@ const UserList = () => {
     }
 
     const DetermineScoreText = (user) => {
-        if (status !== 5) return "---"; //5 is the status code for in game
+        if (status === 4) return "---"; //5 is the status code for in game
 
         switch (gameType) {
             case "Math": return user.score;
