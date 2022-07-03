@@ -30,7 +30,17 @@ export function OrderUserList(immerUserList, clientList, hasGameStarted) {
         }
     }
 
-    return userList
+    return userList.sort(SortByIndex)
+}
+
+export const SortByIndex = (a, b) => {
+    if (a.currentOrderIndex < b.currentOrderIndex) {
+        return -1;
+    }
+    if (a.currentOrderIndex > b.currentOrderIndex) {
+        return 1;
+    }
+    return 0;
 }
 
 const RemoveDisconnectedUsers = (userList, clientList) => {
